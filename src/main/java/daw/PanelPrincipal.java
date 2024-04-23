@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -27,7 +29,6 @@ public class PanelPrincipal extends JPanel implements ActionListener {
     public PanelPrincipal() {
         initComponents();
         tipoOperacion = -1; // No hay operaciones en la calculadora
-        
 
     }
 
@@ -44,6 +45,7 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         // Colocamos la botonera y el área texto
         this.add(areaTexto, BorderLayout.NORTH);
         this.add(botonera, BorderLayout.SOUTH);
+
         for (JButton boton : this.botonera.getgrupoBotones()) {
             boton.addActionListener(this);
         }
@@ -51,13 +53,34 @@ public class PanelPrincipal extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+
+        // Atributos
+        String parametro = "";
+        String operacion = "";
+        int valor1, valor2, resultado;
+
         // Se obtiene el objeto que desencadena el evento
         Object o = ae.getSource();
         // Si es un botón
-        if (o instanceof JButton) {
-            System.out.println(((JButton) o).getText());
-            areaTexto.setText(((JButton) o).getText());
+
+        if (o instanceof JButton jbutton) {
+            // Variable en la que guardo los valores de los botones
+            parametro = ((JButton) o).getText();
+            System.out.println(parametro);
+
+            //if (Integer.parseInt(parametro) >= 0 || "+".contains(parametro)) {
+                areaTexto.append(parametro);
+//                valor1 = Integer.parseInt(areaTexto.getText());
+//                System.out.println("Valor1: " + valor1);
+            //} 
+            
+            operacion = areaTexto.getText();
+            String [] array = operacion.split("+");
+            
+            
+            // UNA VEZ TENGO EL AREA DE TEXTO CON LA OPERACION DESEADA, SEPARO EL sTRING EN PARTES Y DOY VALOR  A VALOR1 Y VALOR 2 Y SI EL AREA DE TEXTO CONTIENE UN = HAGO LA OPERACION
         }
+
         // RESTO DEL CÓDIGO DE LA LÓGICA DE LA CALCULADORA
     }
 
