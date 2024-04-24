@@ -53,35 +53,49 @@ public class PanelPrincipal extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+        String parametro = ((JButton) ae.getSource()).getText();
+        System.out.println(parametro);
+        double resultado = 0;
+        boolean divCero = false;
 
-        // Atributos
-        String parametro = "";
-        String operacion = "";
-        int valor1, valor2, resultado;
+        switch (parametro) {
+            case "=" -> {
+                String operacion = areaTexto.getText();
+                String[] array = operacion.split("(?<=[-+*/])|(?=[-+*/])");
+                String operador = "+";
+                for (String array1 : array) {
+                    if (array1.matches("[0-9]+")) {
+                        double valor = Double.parseDouble(array1);
+                        switch (operador) {
+                            case "+" ->
+                                resultado = resultado + valor;
+                            case "-" ->
+                                resultado = resultado - valor;
+                            case "*" ->
+                                resultado *= resultado * valor;
+                            case "/" -> {
+                                if (valor == 0) {
+                                    divCero = true;
+                                }
+                                resultado = resultado / valor;
+                            }
+                        }
+                    } else {
+                        operador = array1;
+                    }
+                }
+                if (divCero) {
+                    areaTexto.setText("***ERROR***");
+                } else {
+                    areaTexto.setText(operacion + " = " + resultado);
+                }
+            }
 
-        // Se obtiene el objeto que desencadena el evento
-        Object o = ae.getSource();
-        // Si es un botón
-
-        if (o instanceof JButton jbutton) {
-            // Variable en la que guardo los valores de los botones
-            parametro = ((JButton) o).getText();
-            System.out.println(parametro);
-
-            //if (Integer.parseInt(parametro) >= 0 || "+".contains(parametro)) {
+            case "C" ->
+                areaTexto.setText("");
+            default ->
                 areaTexto.append(parametro);
-//                valor1 = Integer.parseInt(areaTexto.getText());
-//                System.out.println("Valor1: " + valor1);
-            //} 
-            
-            operacion = areaTexto.getText();
-            String [] array = operacion.split("+");
-            
-            
-            // UNA VEZ TENGO EL AREA DE TEXTO CON LA OPERACION DESEADA, SEPARO EL sTRING EN PARTES Y DOY VALOR  A VALOR1 Y VALOR 2 Y SI EL AREA DE TEXTO CONTIENE UN = HAGO LA OPERACION
         }
-
-        // RESTO DEL CÓDIGO DE LA LÓGICA DE LA CALCULADORA
     }
 
 }
